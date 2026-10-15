@@ -1,0 +1,31 @@
+[project]
+name = "auditor-mutants"
+version = "0.1.0"
+description = "Plant known violations in recorded agent trajectories and count what iFixAi's trajectory auditor catches."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+dependencies = [
+    # pinned: the predictions in predictions/ were written against this commit
+    "ifixai @ git+https://github.com/ifixai-ai/iFixAi@15599839eccfc2ffcf181b0ca3651413416a9d40",
+]
+
+[project.scripts]
+auditor-mutants = "auditor_mutants.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
