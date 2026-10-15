@@ -8,6 +8,7 @@ requires-python = ">=3.12"
 dependencies = [
     # pinned: the predictions in predictions/ were written against this commit
     "ifixai @ git+https://github.com/ifixai-ai/iFixAi@15599839eccfc2ffcf181b0ca3651413416a9d40",
+    "openai>=1.0",  # phase 2: iFixAi's OpenAI provider, for the agent and the judge
 ]
 
 [project.scripts]
