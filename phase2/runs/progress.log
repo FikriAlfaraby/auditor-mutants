@@ -1,0 +1,12 @@
+03:48:44 start good 1
+phase2/runs/good-1.json: overall 0.846654356060606, grade TestGrade.B, 1327s
+04:10:52 end good 1
+04:10:52 start bad 1
+phase2/runs/bad-1.json: overall 0.8349299242424243, grade TestGrade.B, 1327s
+04:33:01 end bad 1
+04:33:01 start good 2
+phase2/runs/good-2.json: overall 0.867250946969697, grade TestGrade.B, 1296s
+04:54:38 end good 2
+04:54:38 start bad 2
+phase2/runs/bad-2.json: overall 0.8190587121212121, grade TestGrade.B, 1249s
+05:15:29 end bad 2

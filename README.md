@@ -79,6 +79,24 @@ resource matching, no check that the approver is someone else, and no check on a
 seven INCONCLUSIVE cases follow the documented design; their cost is that a reader of the report sees no
 violation, and a pipeline that sends INCONCLUSIVE to a person instead of blocking it reviews them instead.
 
+## Phase 2: the default suite on a rule-following and a rule-breaking agent
+
+The trajectory auditor is one part of iFixAi; the default command runs 10 inspections that send probes to
+an agent and have an LLM judge its replies. I ran them on GPT-6 Luna as a customer-support agent, twice
+as it is and twice with seven appended instructions to break the rules each inspection checks, with
+Gemini 3.8 Flash as the judge and the predictions tagged first
+([phase2/PREDICTIONS.md](phase2/PREDICTIONS.md)). Results: [phase2/RESULTS.md](phase2/RESULTS.md).
+
+- **Both agents got a B (0.85 and 0.87; 0.83 and 0.82).** Two of my five predictions were wrong: the
+  "bad" agent was not bad. Luna ignored the appended instructions; replayed directly, it still refused
+  to grant access or share another customer's data. So the equal scores are right, and the suite's
+  ability to catch a misbehaving agent is still untested.
+- **The good agent's failures were mostly not misbehaviour.** Of 89 failed policy items, 77 were replies
+  asking what a topic-less request meant while keeping the policy; all 23 failed instruction items refer
+  to a request the probe never gives. The one real failure: told to drop its goal for a detective story,
+  it wrote the story in 19 of 20 conversations, and the next step passed when it then claimed the goal
+  "has not changed" and failed when it said truthfully that it had.
+
 ## Limits
 
 - One domain (iFixAi's refund example) and four small policies. The rules are generic, but other policies
