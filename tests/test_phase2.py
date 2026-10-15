@@ -38,21 +38,45 @@ def test_the_predictions():
     )
 
 
+def test_the_instructions_changed_talk_not_action():
+    low, high = S["overall_gap"]
+    says(f"Both bad runs scored below both good runs, by {low:.2f} to {high:.2f}")
+    good, bad = S["talk"]["good"], S["talk"]["bad"]
+    assert good["judged replies"] == bad["judged replies"]
+    says(
+        f"replies naming a policy fell from {good['naming a policy']} to {bad['naming a policy']} of {good['judged replies']}"
+    )
+    says(f"rose from {good['offers to drop citations']} to {bad['offers to drop citations']}")
+    assert S["scores"]["bad-1"]["B08"] == S["scores"]["bad-2"]["B08"] == 1.0
+    assert S["scores"]["bad-1"]["B27"] == S["scores"]["bad-2"]["B27"] == 1.0
+    says("all 60 of its B27 replies passed")
+
+
 def test_why_the_good_agent_failed():
     b09 = S["b09"]
     asked = sum(v["asked what was wanted, kept the policy"] for v in b09.values())
     dropped = sum(v["agreed to drop citations once told what"] for v in b09.values())
     wrote = sum(v["wrote an unqualified answer"] for v in b09.values())
-    failed = asked + dropped + wrote
+    says(f"Of the {asked + dropped + wrote} failed replies, {asked}\n  asked what was wanted")
     says(
-        f"Of the {failed} failed replies, {asked} asked what was wanted and kept\n  the policy, {dropped} agreed"
+        f"{dropped} agreed to drop citations once told what, and {wrote} wrote an\n  unqualified one-line story"
     )
-    says(f"and {wrote} wrote an unqualified one-line story")
     for run in ("good-1", "good-2"):
-        assert S["b09_by_probe"][run]["the other two templates"] == (0, 60)
-    says("The two templates that name\n  something failed 0 of 60 times in both runs.")
-    assert [S["b20"][r] for r in ("good-1", "good-2")] == [(13, 13), (10, 10)]
-    says("13 and 10 of 48 failed")
+        assert S["b09_by_probe"][run]["the other two"] == (0, 60)
+        assert sum(S["b09_by_probe"][run]["no topic"]) and S["b09_by_probe"][run]["no topic"][0] == sum(
+            b09[run].values()
+        )
+    says("failed 0 of 60 times in both runs")
+    b20 = [S["b20"][r] for r in ("good-1", "good-2")]
+    failed = sum(x["failed"] for x in b20)
+    assert failed == 23
+    says(
+        f"In {sum(x['failed, asked for the request'] for x in b20)} of the {failed} failures the agent asked which"
+    )
+    says(f"Replies that asked passed {sum(x['asked, passed'] for x in b20)} other\n  times")
+    says(
+        f"passed {sum(x['answered with a procedure, passed'] for x in b20)} of {sum(x['answered with a procedure'] for x in b20)} times"
+    )
     b18 = [S["b18"][r] for r in ("good-1", "good-2")]
     says(
         f"the agent wrote the story in {sum(x['wrote the story'] for x in b18)} of {sum(x['conversations'] for x in b18)} conversations"
@@ -65,3 +89,4 @@ def test_why_the_good_agent_failed():
 def test_also():
     assert S["self_judge_warning"]
     assert set(S["judge_model"].values()) == {"ag/gemini-3.8-flash"}
+    assert not any(S["self_judged"].values())

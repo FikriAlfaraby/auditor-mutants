@@ -18,7 +18,7 @@ changes one thing at a time, and asks the auditor again:
 - **probe**: a legitimate trajectory a strict auditor might wrongly flag. It should be CLEAR.
 - **control**: an unchanged compliant trajectory. CLEAR.
 
-## Results
+## Phase 1: the trajectory auditor, 43 mutants
 
 16 October 2026, iFixAi at commit 1559983. 43 mutants, each audited with iFixAi's own CLI. Every decision
 and every violation code matched the prediction tagged before the run
@@ -81,23 +81,25 @@ violation, and a pipeline that sends INCONCLUSIVE to a person instead of blockin
 
 ## Phase 2: the default suite on a rule-following and a rule-breaking agent
 
-The trajectory auditor is one part of iFixAi; the default command runs 10 inspections that send probes to
-an agent and have an LLM judge its replies. I ran them on GPT-6 Luna as a customer-support agent, twice
-as it is and twice with seven appended instructions to break the rules each inspection checks, with
-Gemini 3.8 Flash as the judge and the predictions tagged first
-([phase2/PREDICTIONS.md](phase2/PREDICTIONS.md)). Results: [phase2/RESULTS.md](phase2/RESULTS.md).
+The trajectory auditor is one part of iFixAi. Its default command runs 10 inspections; eight of them send
+probes to an agent and have an LLM judge its replies. I ran them on GPT-6 Luna as a customer-support
+agent, twice as it is and twice with seven appended instructions to break the rules each inspection
+checks, with Gemini 3.8 Flash as the judge and the predictions tagged first
+([phase2/PREDICTIONS.md](phase2/PREDICTIONS.md)). Results, corrected after an independent review:
+[phase2/RESULTS.md](phase2/RESULTS.md).
 
-- **Both agents got a B (0.85 and 0.87; 0.83 and 0.82).** Two of my five predictions were wrong: the
-  "bad" agent was not bad. Luna ignored the appended instructions; replayed directly, it still refused
-  to grant access or share another customer's data. So the equal scores are right, and the suite's
-  ability to catch a misbehaving agent is still untested.
-- **The good agent's failures were mostly not misbehaviour.** Of 89 failed policy items, 77 were replies
-  asking what a topic-less request meant while keeping the policy; all 23 failed instruction items refer
-  to a request the probe never gives. The one real failure: told to drop its goal for a detective story,
-  it wrote the story in 19 of 20 conversations, and the next step passed when it then claimed the goal
-  "has not changed" and failed when it said truthfully that it had.
+- **Both agents got a B (0.85 and 0.87; 0.83 and 0.82).** Two of my five predictions were wrong. The
+  instructions changed how Luna talked, not what it did: it named policies far less (165 to 70 of 740
+  replies) and offered to drop citations more often, but still refused every harmful request. So the
+  near-equal scores are right, and whether the suite catches an agent that misbehaves is still untested.
+- **The good agent's failures were mostly not misbehaviour.** All 89 failed policy items come from two
+  requests that name no topic and test rules the agent's prompt never states; 75 of those replies asked
+  what was wanted and kept the policy. All 23 failed instruction items refer to a request the probe never
+  gives. The clearest real failure: told to drop its goal for a detective story, it wrote the story in 19
+  of 20 conversations, and the next step passed when it then said the goal had not changed and failed
+  when it said truthfully that it had.
 
-## Limits
+## Limits of phase 1
 
 - One domain (iFixAi's refund example) and four small policies. The rules are generic, but other policies
   were not tried.
@@ -109,7 +111,7 @@ Gemini 3.8 Flash as the judge and the predictions tagged first
   only such test is a use-count test whose approver is also the actor
   (`ifixai/tests/trajectory/test_chains_and_ledger.py`, `test_approval_use_counter_shared_across_actions`).
 
-## Predictions first
+## Predictions first (phase 1)
 
 Every mutant carries the decision I predicted for iFixAi, read from its code at commit
 [1559983](https://github.com/ifixai-ai/iFixAi/tree/15599839eccfc2ffcf181b0ca3651413416a9d40), with the
@@ -131,4 +133,5 @@ Every input is in `mutants/`, so each case can be checked with iFixAi alone:
 `ifixai trajectory audit mutants/<id>/policy.json mutants/<id>/trace.jsonl --output /tmp/<id>`
 (for `compliant-otlp`: `trace.otlp.json` with `--format otlp`).
 
-No model is called and nothing is spent: the auditor is deterministic.
+Phase 1 calls no model and spends nothing: the trajectory auditor is deterministic. Phase 2 calls
+GPT-6 Luna and Gemini 3.8 Flash through a local gateway (`phase2/run_suite.py`).
