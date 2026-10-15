@@ -1,0 +1,86 @@
+{
+  "decision": "CLEAR",
+  "violations": [],
+  "coverage_issues": [],
+  "checked_actions": 2,
+  "completed_actions": 2,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 8,
+    "permission": 2,
+    "approval": 1,
+    "delegation": 1,
+    "budget": 2,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "refund-2"
+    ],
+    [
+      "delegation",
+      "refund-2"
+    ],
+    [
+      "refund-2",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "delegation",
+      "refund"
+    ],
+    "refund-2": [
+      "delegation",
+      "refund-2"
+    ]
+  },
+  "budget_totals": {
+    "trace": 80
+  },
+  "policy_digest": "a56bd56fcdcaa7afcd36775ac69795f9edba0685e639c2dcafcdeaa3c3fc16eb",
+  "capture_digest": "45d0ea90da5ea25acd8e35dbb6ac9faa71d4887aaba0567214bdbd7de379754d",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "decision": "CLEAR",
+  "violations": [],
+  "coverage_issues": [],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 8,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 2,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "sub-delegation"
+    ],
+    [
+      "sub-delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "sub-delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "delegation",
+      "sub-delegation",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "78d9eac6e4f902df40e1d5d4829a38f859c635ee6a068b0764859746b8866c11",
+  "capture_digest": "78eee8b79962025a59afe2af3724d26000a357d4afadc89aa5a2508ea60cc0c9",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

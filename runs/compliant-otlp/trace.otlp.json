@@ -1,0 +1,156 @@
+{
+ "resourceSpans": [
+  {
+   "resource": {
+    "attributes": [
+     {
+      "key": "ifixai.tenant_id",
+      "value": {
+       "stringValue": "demo-tenant"
+      }
+     },
+     {
+      "key": "ifixai.collector_id",
+      "value": {
+       "stringValue": "local-observer"
+      }
+     },
+     {
+      "key": "ifixai.capture_complete",
+      "value": {
+       "boolValue": true
+      }
+     }
+    ]
+   },
+   "scopeSpans": [
+    {
+     "scope": {
+      "name": "local-trajectory-observer"
+     },
+     "spans": [
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000001",
+       "parentSpanId": "",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "100",
+       "endTimeUnixNano": "100",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000001\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 1, \"time_ns\": 100, \"parents\": [], \"payload\": {\"kind\": \"start\", \"label\": \"Synthetic local refund; no money moved\"}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000002",
+       "parentSpanId": "0000000000000001",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "101",
+       "endTimeUnixNano": "101",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000002\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 2, \"time_ns\": 101, \"parents\": [\"0000000000000001\"], \"payload\": {\"kind\": \"delegation\", \"actor_id\": \"supervisor\", \"subject_id\": \"agent\", \"action\": \"refund\", \"resource_scope\": \"accounts:*\", \"expires_ns\": 10000, \"parent_grant_id\": null}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000003",
+       "parentSpanId": "0000000000000002",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "102",
+       "endTimeUnixNano": "102",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000003\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 3, \"time_ns\": 102, \"parents\": [\"0000000000000002\"], \"payload\": {\"kind\": \"approval\", \"actor_id\": \"supervisor\", \"subject_id\": \"agent\", \"action\": \"refund\", \"resource\": \"accounts:demo-account\", \"arguments_digest\": \"19963e9e58a89430ba3d381398fe40d7fd1b1e37233a8393cffc61d178b602ce\", \"expires_ns\": 10000, \"uses\": 1, \"human\": true}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000004",
+       "parentSpanId": "0000000000000003",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "103",
+       "endTimeUnixNano": "103",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000004\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 4, \"time_ns\": 103, \"parents\": [\"0000000000000003\", \"0000000000000002\"], \"payload\": {\"kind\": \"action\", \"actor_id\": \"agent\", \"action\": \"refund\", \"resource\": \"accounts:demo-account\", \"arguments_digest\": \"19963e9e58a89430ba3d381398fe40d7fd1b1e37233a8393cffc61d178b602ce\", \"approval_id\": \"0000000000000003\", \"delegation_id\": \"0000000000000002\", \"cost_units\": 60, \"outcome\": \"completed\"}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000005",
+       "parentSpanId": "0000000000000004",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "104",
+       "endTimeUnixNano": "104",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000005\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 5, \"time_ns\": 104, \"parents\": [\"0000000000000004\"], \"payload\": {\"kind\": \"source\", \"actor_id\": \"agent\", \"resource\": \"receipts:local\", \"content_digest\": \"ff0ced2c0f2382bf5700dbed71155696f04ebd1f671bafb4bd1c50c64965360f\"}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000006",
+       "parentSpanId": "0000000000000005",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "105",
+       "endTimeUnixNano": "105",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000006\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 6, \"time_ns\": 105, \"parents\": [\"0000000000000005\"], \"payload\": {\"kind\": \"output\", \"actor_id\": \"agent\", \"citations\": [{\"source_event_id\": \"0000000000000005\", \"content_digest\": \"ff0ced2c0f2382bf5700dbed71155696f04ebd1f671bafb4bd1c50c64965360f\"}], \"label\": \"Local refund receipt\"}}"
+         }
+        }
+       ]
+      },
+      {
+       "traceId": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+       "spanId": "0000000000000007",
+       "parentSpanId": "0000000000000006",
+       "name": "explicit recorded semantic event",
+       "kind": 1,
+       "startTimeUnixNano": "106",
+       "endTimeUnixNano": "106",
+       "attributes": [
+        {
+         "key": "ifixai.event",
+         "value": {
+          "stringValue": "{\"event_id\": \"0000000000000007\", \"trace_id\": \"a0d17a0d17a0d17a0d17a0d17a0d17a0\", \"tenant_id\": \"demo-tenant\", \"sequence\": 7, \"time_ns\": 106, \"parents\": [\"0000000000000006\"], \"payload\": {\"kind\": \"end\", \"complete\": true, \"declared_events\": 7}}"
+         }
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

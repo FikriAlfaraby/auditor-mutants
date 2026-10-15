@@ -1,0 +1,78 @@
+{
+  "decision": "CLEAR",
+  "violations": [],
+  "coverage_issues": [],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 8,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 1,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "revocation"
+    ],
+    [
+      "revocation",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "delegation",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "747335f2f0bea4c75af2d55e5feba09c1332ac7b376ebc3dd644c3e31287eccc",
+  "capture_digest": "3996c9cb0715187bda8e8acf45a67ea52d4efb9bc5a19ad78b2ceca35327d687",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

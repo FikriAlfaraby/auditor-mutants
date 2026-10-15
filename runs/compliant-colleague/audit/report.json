@@ -1,0 +1,65 @@
+{
+  "decision": "CLEAR",
+  "violations": [],
+  "coverage_issues": [],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 6,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 0,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "NOT_EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "refund",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "199ac6be56a9daff495c3c929f98d26e9876fe97b6589f4c8c0db2562ff667fb",
+  "capture_digest": "512e4a2774aea7e45a096687895eb245d1dc7c16f8256bbd97aa69f873386760",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

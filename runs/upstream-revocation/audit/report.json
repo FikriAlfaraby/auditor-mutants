@@ -1,0 +1,95 @@
+{
+  "decision": "BLOCK",
+  "violations": [
+    {
+      "rule": "delegation",
+      "code": "REVOCATION_AUTHORITY",
+      "event_id": "revocation",
+      "message": "Revocation lacks known, relevant authority or a causal grant dependency.",
+      "witness_ids": [
+        "sub-delegation",
+        "revocation"
+      ],
+      "actor_id": "supervisor"
+    }
+  ],
+  "coverage_issues": [],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 9,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 2,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "sub-delegation"
+    ],
+    [
+      "sub-delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "sub-delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "revocation"
+    ],
+    [
+      "revocation",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "delegation",
+      "sub-delegation",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "78d9eac6e4f902df40e1d5d4829a38f859c635ee6a068b0764859746b8866c11",
+  "capture_digest": "14f9279562457de9144ff7d3f8bfc4c2f9582612e7d5850b6b2524a8bfdcdf6b",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

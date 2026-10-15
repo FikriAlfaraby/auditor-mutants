@@ -1,0 +1,47 @@
+{
+ "schema_version": "1",
+ "name": "Local refund demonstration",
+ "tenant_id": "demo-tenant",
+ "trusted_collectors": [
+  "local-observer"
+ ],
+ "actors": {
+  "supervisor": {
+   "roles": [
+    "supervisor"
+   ],
+   "human": true
+  },
+  "agent": {
+   "roles": [
+    "agent"
+   ],
+   "human": false
+  }
+ },
+ "permissions": [
+  {
+   "role": "supervisor",
+   "action": "refund",
+   "resource_scope": "accounts:*"
+  }
+ ],
+ "approval_rules": [
+  {
+   "action": "refund",
+   "resource_scope": "accounts:*",
+   "approver_roles": [
+    "supervisor"
+   ],
+   "require_human": true
+  }
+ ],
+ "budgets": [
+  {
+   "scope": "trace",
+   "limit_units": 100,
+   "actor_id": null
+  }
+ ],
+ "require_citations": true
+}

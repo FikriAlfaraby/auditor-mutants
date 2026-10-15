@@ -1,0 +1,75 @@
+{
+  "decision": "INCONCLUSIVE",
+  "violations": [],
+  "coverage_issues": [
+    {
+      "code": "MISSING_DELEGATION",
+      "event_id": "refund",
+      "message": "Claimed delegation chain is incomplete.",
+      "witness_ids": [
+        "delegation-0",
+        "refund"
+      ]
+    }
+  ],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 6,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 0,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "NOT_EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "refund",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "747335f2f0bea4c75af2d55e5feba09c1332ac7b376ebc3dd644c3e31287eccc",
+  "capture_digest": "c41037b18c6c2cf71a313cd52f51d818b783ef6f4067993c39ada966d7c3912e",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

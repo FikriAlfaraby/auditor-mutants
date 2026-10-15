@@ -1,0 +1,297 @@
+{
+  "schema_version": "1",
+  "policy": {
+    "schema_version": "1",
+    "name": "Local refund demonstration",
+    "tenant_id": "demo-tenant",
+    "trusted_collectors": [
+      "local-observer"
+    ],
+    "actors": {
+      "supervisor": {
+        "roles": [
+          "supervisor"
+        ],
+        "human": true
+      },
+      "agent": {
+        "roles": [
+          "agent"
+        ],
+        "human": false
+      }
+    },
+    "permissions": [
+      {
+        "role": "supervisor",
+        "action": "refund",
+        "resource_scope": "accounts:*"
+      }
+    ],
+    "approval_rules": [
+      {
+        "action": "refund",
+        "resource_scope": "accounts:*",
+        "approver_roles": [
+          "supervisor"
+        ],
+        "require_human": true
+      }
+    ],
+    "budgets": [
+      {
+        "scope": "trace",
+        "limit_units": 100,
+        "actor_id": null
+      }
+    ],
+    "require_citations": true
+  },
+  "capture": {
+    "schema_version": "1",
+    "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+    "tenant_id": "demo-tenant",
+    "collector_id": "local-observer",
+    "events": [
+      {
+        "event_id": "start",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 1,
+        "time_ns": 100,
+        "parents": [],
+        "payload": {
+          "kind": "start",
+          "label": "Synthetic local refund; no money moved"
+        }
+      },
+      {
+        "event_id": "delegation",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 2,
+        "time_ns": 101,
+        "parents": [
+          "start"
+        ],
+        "payload": {
+          "kind": "delegation",
+          "actor_id": "supervisor",
+          "subject_id": "agent",
+          "action": "refund",
+          "resource_scope": "accounts:*",
+          "expires_ns": 10000,
+          "parent_grant_id": null
+        }
+      },
+      {
+        "event_id": "approval",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 3,
+        "time_ns": 102,
+        "parents": [
+          "delegation"
+        ],
+        "payload": {
+          "kind": "approval",
+          "actor_id": "supervisor",
+          "subject_id": "agent",
+          "action": "refund",
+          "resource": "accounts:demo-account",
+          "arguments_digest": "89857b873fefbee8a06b67a54100fe5bcfaa3d0a0cb723695ae18646b21d3237",
+          "expires_ns": 10000,
+          "uses": 2,
+          "human": true
+        }
+      },
+      {
+        "event_id": "refund",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 4,
+        "time_ns": 103,
+        "parents": [
+          "approval",
+          "delegation"
+        ],
+        "payload": {
+          "kind": "action",
+          "actor_id": "agent",
+          "action": "refund",
+          "resource": "accounts:demo-account",
+          "arguments_digest": "89857b873fefbee8a06b67a54100fe5bcfaa3d0a0cb723695ae18646b21d3237",
+          "approval_id": "approval",
+          "delegation_id": "delegation",
+          "cost_units": 40,
+          "outcome": "completed"
+        }
+      },
+      {
+        "event_id": "refund-2",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 5,
+        "time_ns": 104,
+        "parents": [
+          "approval",
+          "delegation"
+        ],
+        "payload": {
+          "kind": "action",
+          "actor_id": "agent",
+          "action": "refund",
+          "resource": "accounts:demo-account",
+          "arguments_digest": "89857b873fefbee8a06b67a54100fe5bcfaa3d0a0cb723695ae18646b21d3237",
+          "approval_id": "approval",
+          "delegation_id": "delegation",
+          "cost_units": 40,
+          "outcome": "completed"
+        }
+      },
+      {
+        "event_id": "receipt",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 6,
+        "time_ns": 105,
+        "parents": [
+          "refund-2"
+        ],
+        "payload": {
+          "kind": "source",
+          "actor_id": "agent",
+          "resource": "receipts:local",
+          "content_digest": "218114bd187b71dfffd6d87c31f504ee338b6c38592d2486a118c07f7678dd5d"
+        }
+      },
+      {
+        "event_id": "answer",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 7,
+        "time_ns": 106,
+        "parents": [
+          "receipt"
+        ],
+        "payload": {
+          "kind": "output",
+          "actor_id": "agent",
+          "citations": [
+            {
+              "source_event_id": "receipt",
+              "content_digest": "218114bd187b71dfffd6d87c31f504ee338b6c38592d2486a118c07f7678dd5d"
+            }
+          ],
+          "label": "Local refund receipt"
+        }
+      },
+      {
+        "event_id": "end",
+        "trace_id": "a0d17a0d17a0d17a0d17a0d17a0d17a0",
+        "tenant_id": "demo-tenant",
+        "sequence": 8,
+        "time_ns": 107,
+        "parents": [
+          "answer"
+        ],
+        "payload": {
+          "kind": "end",
+          "complete": true,
+          "declared_events": 8
+        }
+      }
+    ],
+    "capture_complete": true,
+    "import_warnings": [],
+    "source_format": "jsonl"
+  },
+  "report": {
+    "decision": "CLEAR",
+    "violations": [],
+    "coverage_issues": [],
+    "checked_actions": 2,
+    "completed_actions": 2,
+    "failed_actions": 0,
+    "family_counts": {
+      "graph": 8,
+      "permission": 2,
+      "approval": 2,
+      "delegation": 1,
+      "budget": 2,
+      "citation": 1
+    },
+    "family_status": {
+      "graph": "EVALUATED",
+      "permission": "EVALUATED",
+      "approval": "EVALUATED",
+      "delegation": "EVALUATED",
+      "budget": "EVALUATED",
+      "citation": "EVALUATED"
+    },
+    "graph_edges": [
+      [
+        "start",
+        "delegation"
+      ],
+      [
+        "delegation",
+        "approval"
+      ],
+      [
+        "approval",
+        "refund"
+      ],
+      [
+        "delegation",
+        "refund"
+      ],
+      [
+        "approval",
+        "refund-2"
+      ],
+      [
+        "delegation",
+        "refund-2"
+      ],
+      [
+        "refund-2",
+        "receipt"
+      ],
+      [
+        "receipt",
+        "answer"
+      ],
+      [
+        "answer",
+        "end"
+      ]
+    ],
+    "authority_paths": {
+      "refund": [
+        "approval",
+        "delegation",
+        "refund"
+      ],
+      "refund-2": [
+        "approval",
+        "delegation",
+        "refund-2"
+      ]
+    },
+    "budget_totals": {
+      "trace": 80
+    },
+    "policy_digest": "747335f2f0bea4c75af2d55e5feba09c1332ac7b376ebc3dd644c3e31287eccc",
+    "capture_digest": "05481d26f200e03a68fb6f95e71261a64ad72a4f896d03abcd6b6e9fcc41be5f",
+    "limitations": [
+      "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+      "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+      "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+      "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+      "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+      "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+    ]
+  },
+  "integrity_digest": "bddacf78091c62a071dc331a1519f6b6db96ea366a9a134531f13e72077769dd"
+}

@@ -1,0 +1,95 @@
+{
+  "decision": "BLOCK",
+  "violations": [
+    {
+      "rule": "delegation",
+      "code": "DELEGATION_EXPIRED",
+      "event_id": "refund",
+      "message": "Every ancestor delegation must remain unexpired at use.",
+      "witness_ids": [
+        "delegation",
+        "refund"
+      ],
+      "actor_id": "agent"
+    },
+    {
+      "rule": "permission",
+      "code": "PERMISSION_DENIED",
+      "event_id": "refund",
+      "message": "No direct role grant or valid delegated authority permits this completed action.",
+      "witness_ids": [
+        "refund"
+      ],
+      "actor_id": "agent"
+    }
+  ],
+  "coverage_issues": [],
+  "checked_actions": 1,
+  "completed_actions": 1,
+  "failed_actions": 0,
+  "family_counts": {
+    "graph": 7,
+    "permission": 1,
+    "approval": 1,
+    "delegation": 1,
+    "budget": 1,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "EVALUATED",
+    "approval": "EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {
+    "refund": [
+      "approval",
+      "refund"
+    ]
+  },
+  "budget_totals": {
+    "trace": 60
+  },
+  "policy_digest": "747335f2f0bea4c75af2d55e5feba09c1332ac7b376ebc3dd644c3e31287eccc",
+  "capture_digest": "6bbfcd28de86a3a36dd55d00db7295efc0f97d015439a2c1bde7ae3debd89148",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "decision": "INCONCLUSIVE",
+  "violations": [],
+  "coverage_issues": [
+    {
+      "code": "ACTION_SIDE_EFFECTS_UNKNOWN",
+      "event_id": "refund",
+      "message": "Failed/unknown outcome does not prove absence of side effects or costs.",
+      "witness_ids": []
+    },
+    {
+      "code": "BUDGET_NOT_EVALUATED",
+      "event_id": null,
+      "message": "Configured trace budget rule 0 observed no applicable completed actions.",
+      "witness_ids": []
+    },
+    {
+      "code": "APPROVAL_NOT_EVALUATED",
+      "event_id": null,
+      "message": "Approval policy is enabled but no applicable completed action was observed.",
+      "witness_ids": []
+    },
+    {
+      "code": "BUDGET_NOT_EVALUATED",
+      "event_id": null,
+      "message": "Budget policy is enabled but no completed actions were observed.",
+      "witness_ids": []
+    },
+    {
+      "code": "NO_CHECKED_ACTIONS",
+      "event_id": null,
+      "message": "Positive assurance requires at least one policy-checked completed action.",
+      "witness_ids": []
+    }
+  ],
+  "checked_actions": 0,
+  "completed_actions": 0,
+  "failed_actions": 1,
+  "family_counts": {
+    "graph": 7,
+    "permission": 0,
+    "approval": 0,
+    "delegation": 1,
+    "budget": 0,
+    "citation": 1
+  },
+  "family_status": {
+    "graph": "EVALUATED",
+    "permission": "NOT_EVALUATED",
+    "approval": "NOT_EVALUATED",
+    "delegation": "EVALUATED",
+    "budget": "NOT_EVALUATED",
+    "citation": "EVALUATED"
+  },
+  "graph_edges": [
+    [
+      "start",
+      "delegation"
+    ],
+    [
+      "delegation",
+      "approval"
+    ],
+    [
+      "approval",
+      "refund"
+    ],
+    [
+      "delegation",
+      "refund"
+    ],
+    [
+      "refund",
+      "receipt"
+    ],
+    [
+      "receipt",
+      "answer"
+    ],
+    [
+      "answer",
+      "end"
+    ]
+  ],
+  "authority_paths": {},
+  "budget_totals": {
+    "trace": 0
+  },
+  "policy_digest": "747335f2f0bea4c75af2d55e5feba09c1332ac7b376ebc3dd644c3e31287eccc",
+  "capture_digest": "130ee5231c17b8ebb2105b462e6794a8483abf14d54b3137c52a6ec5b407c083",
+  "limitations": [
+    "Capture completeness, collector identity, actor identity, human approval and costs are caller declarations, not authenticated facts.",
+    "This passive audit inspects already-recorded actions and does not prevent execution or reverse effects.",
+    "Recorded dependency edges establish declared lineage, not physical causality or completeness of unobserved activity.",
+    "Citations verify recorded source identity and content digests, not semantic entailment, factual truth or licensing.",
+    "Integer costs use caller-defined units; this is not billing proof or currency conversion.",
+    "Checksums provide integrity, not authenticity, production certification or deployment authorization."
+  ]
+}

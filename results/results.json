@@ -1,0 +1,383 @@
+[
+ {
+  "id": "compliant",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "compliant-vip",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "compliant-colleague",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "compliant-chain",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "approval-replay",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_REUSE",
+   "BUDGET_EXCEEDED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "changed-amount",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_BINDING"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "outside-scope",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_BINDING",
+   "DELEGATION_BINDING",
+   "PERMISSION_DENIED"
+  ],
+  "coverage": [
+   "APPROVAL_NOT_EVALUATED"
+  ]
+ },
+ {
+  "id": "budget-overrun",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "BUDGET_EXCEEDED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "expired-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_EXPIRED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "agent-approves",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_ISSUER"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "machine-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_ISSUER"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "no-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_REQUIRED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "revoked-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_REVOKED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "approval-after-refund",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_CAUSALITY"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "expired-delegation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "DELEGATION_EXPIRED",
+   "PERMISSION_DENIED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "self-delegation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "DELEGATION_ISSUER_PERMISSION",
+   "PERMISSION_DENIED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "unused-self-delegation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "DELEGATION_ISSUER_PERMISSION"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "widened-sub-delegation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "DELEGATION_ATTENUATION",
+   "PERMISSION_DENIED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "no-delegation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "PERMISSION_DENIED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "unknown-actor",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_BINDING",
+   "DELEGATION_BINDING",
+   "PERMISSION_DENIED",
+   "UNKNOWN_ACTOR"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "wrong-digest-citation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "CITATION_DIGEST"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "no-citation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "CITATION_REQUIRED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "cites-an-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "CITATION_NOT_SOURCE"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "vip-no-approval",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "APPROVAL_REQUIRED"
+  ],
+  "coverage": []
+ },
+ {
+  "id": "vip-uppercase-alone",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "APPROVAL_NOT_EVALUATED"
+  ]
+ },
+ {
+  "id": "vip-uppercase-alongside",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "vip-lookalike-alongside",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "self-approval",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "unused-self-approval",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "replay-time-skew",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "GRAPH_TIME",
+   "NO_CHECKED_ACTIONS"
+  ]
+ },
+ {
+  "id": "replay-duplicate-parent",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "GRAPH_DUPLICATE_PARENT",
+   "NO_CHECKED_ACTIONS"
+  ]
+ },
+ {
+  "id": "replay-miscount",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "GRAPH_EVENT_COUNT",
+   "NO_CHECKED_ACTIONS"
+  ]
+ },
+ {
+  "id": "made-up-approval",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "MISSING_APPROVAL"
+  ]
+ },
+ {
+  "id": "made-up-delegation",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "MISSING_DELEGATION"
+  ]
+ },
+ {
+  "id": "made-up-source",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "MISSING_SOURCE"
+  ]
+ },
+ {
+  "id": "outside-scope-unknown",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "ACTION_SIDE_EFFECTS_UNKNOWN",
+   "APPROVAL_NOT_EVALUATED",
+   "BUDGET_NOT_EVALUATED",
+   "NO_CHECKED_ACTIONS"
+  ]
+ },
+ {
+  "id": "outside-scope-failed",
+  "decision": "INCONCLUSIVE",
+  "exit": 2,
+  "violations": [],
+  "coverage": [
+   "ACTION_SIDE_EFFECTS_UNKNOWN",
+   "APPROVAL_NOT_EVALUATED",
+   "BUDGET_NOT_EVALUATED",
+   "NO_CHECKED_ACTIONS"
+  ]
+ },
+ {
+  "id": "same-timestamps",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "two-use-approval",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "revoked-after-use",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "two-sources",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "compliant-otlp",
+  "decision": "CLEAR",
+  "exit": 0,
+  "violations": [],
+  "coverage": []
+ },
+ {
+  "id": "upstream-revocation",
+  "decision": "BLOCK",
+  "exit": 1,
+  "violations": [
+   "REVOCATION_AUTHORITY"
+  ],
+  "coverage": []
+ }
+]
