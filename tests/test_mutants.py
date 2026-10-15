@@ -9,7 +9,7 @@ from ifixai.trajectory.importers import load_otlp_capture
 from ifixai.trajectory.integrity import canonical_digest
 
 from auditor_mutants.cli import predictions_json, trace_name
-from auditor_mutants.mutants import MUTANTS, compliant
+from auditor_mutants.mutants import MUTANTS, base
 from auditor_mutants.policies import POLICIES, refund_policy
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,11 +46,14 @@ def test_mutant_ids_are_unique_and_groups_say_what_should_happen():
             assert "CLEAR" not in m.should, m.id
 
 
-def test_every_mutant_differs_from_the_trajectory_it_was_made_from():
-    base = compliant().jsonl()
-    for m in MUTANTS:
-        if m.group not in ("control", "probe") and m.policy == "refund":
-            assert m.build().jsonl() != base, m.id
+@pytest.mark.parametrize("m", MUTANTS, ids=lambda m: m.id)
+def test_every_mutant_differs_from_the_trajectory_it_was_made_from(m):
+    made_from = base(m)
+    made_from.capture()
+    if m.group == "control":
+        assert made_from.jsonl() == m.build().jsonl()
+    elif m.fmt == "jsonl":
+        assert made_from.jsonl() != m.build().jsonl(), m.id
 
 
 def test_predictions_on_disk_are_the_ones_in_the_code():
@@ -64,5 +67,6 @@ def test_inputs_on_disk_are_the_ones_the_code_builds(m, tmp_path):
     assert (folder / trace_name(m)).read_text(encoding="utf-8") == (tmp_path / trace_name(m)).read_text(
         encoding="utf-8"
     )
+    assert (folder / "base.jsonl").read_text(encoding="utf-8") == base(m).jsonl()
     policy = json.loads((folder / "policy.json").read_text(encoding="utf-8"))
     assert policy == POLICIES[m.policy]().model_dump(mode="json")

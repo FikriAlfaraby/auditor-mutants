@@ -15,7 +15,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from auditor_mutants.mutants import MUTANTS, Mutant
+from auditor_mutants.mutants import MUTANTS, Mutant, base
 from auditor_mutants.policies import POLICIES
 
 ROOT = Path.cwd()
@@ -32,6 +32,7 @@ def write_inputs(m: Mutant, folder: Path) -> None:
         json.dumps(policy, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     m.build().write(folder / trace_name(m), m.fmt)
+    base(m).write(folder / "base.jsonl")  # what the mutant was made from, for showing the change
 
 
 def prediction(m: Mutant) -> dict[str, object]:

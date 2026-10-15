@@ -888,3 +888,23 @@ def _two_sources() -> Trace:
 
 
 BY_ID = {m.id: m for m in MUTANTS}
+
+# The trajectory each mutant was made from, so a reader can see exactly what changed. Mutants not
+# listed come from compliant(); a control is its own base.
+BASES: dict[str, Callable[[], Trace]] = {
+    "vip-no-approval": vip,
+    "vip-uppercase-alone": vip,
+    "vip-uppercase-alongside": lambda: compliant(units=40, resource="accounts:vip-7"),
+    "vip-lookalike-alongside": lambda: compliant(units=40, resource="accounts:vip-7"),
+    "self-approval": supervisor_refund,
+    "widened-sub-delegation": chain,
+    "upstream-revocation": chain,
+    "replay-time-skew": replay,
+    "replay-duplicate-parent": replay,
+    "replay-miscount": replay,
+    "two-use-approval": lambda: compliant(units=40),
+}
+
+
+def base(m: Mutant) -> Trace:
+    return m.build() if m.group == "control" else BASES.get(m.id, compliant)()
