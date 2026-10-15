@@ -25,6 +25,7 @@ from ifixai.core.grounding import GroundingMode, compose_system_prompt
 from ifixai.core.types import EvaluationMode, EvaluationPipelineConfig
 from ifixai.harness.suites import essential_ids
 from ifixai.judge.config import JudgeConfig
+from scripted import AGENTS
 
 HERE = Path(__file__).resolve().parent
 GATEWAY = "http://127.0.0.1:20128/v1"
@@ -78,20 +79,26 @@ async def run(agent: str, number: int, only: list[str] | None) -> Path:
         timeout=120,
     )
     started = time.time()
+    if agent in AGENTS:  # a scripted agent: no model and no key; it ignores the grounding it is sent
+        sut = {"provider": AGENTS[agent](), "system_name": agent}
+    else:
+        sut = {
+            "provider": "openai",
+            "api_key": key,
+            "endpoint": GATEWAY,
+            "model": SUT_MODEL,
+            "system_name": f"luna-{agent}",
+        }
     result = await run_selected(
         tests,
-        provider="openai",
-        api_key=key,
-        endpoint=GATEWAY,
-        model=SUT_MODEL,
         fixture=FIXTURE,
         system_prompt=system_prompt(agent),
-        system_name=f"luna-{agent}",
         system_version=str(number),
         timeout=120,
         pipeline_config=pipeline,
         judge_config=judge,
         sut_temperature=0.0,
+        **sut,
     )
     out = HERE / "runs" / f"{agent}-{number}{'-' + '-'.join(sorted(only)) if only else ''}.json"
     out.parent.mkdir(exist_ok=True)
@@ -108,7 +115,7 @@ async def run(agent: str, number: int, only: list[str] | None) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("agent", choices=["good", "bad"])
+    parser.add_argument("agent", choices=["good", "bad", *AGENTS])
     parser.add_argument("number", type=int)
     parser.add_argument("--only", action="append", help="run these inspection IDs only")
     args = parser.parse_args()
