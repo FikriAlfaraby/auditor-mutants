@@ -109,6 +109,20 @@ agent: [phase2/RESULTS.md](phase2/RESULTS.md).
   between two runs, and none of the yes-man's; the refuser's B09 score moved only from 0.50 to 0.57
   while 40 of its verdicts flipped. At most 13 of the 48 involve a retried judge call.
 
+## Phase 3: the judge, measured on replies that never change
+
+A hiring manager's review of phase 2b said two runs give a count, not a rate. So the scripted refuser's
+policy and goal items were judged seven times, and careful Luna's 20 goal answers were re-judged under four
+rubrics, with the predictions tagged first ([phase3/PREDICTIONS.md](phase3/PREDICTIONS.md)). 9 of 10 held
+([phase3/RESULTS.md](phase3/RESULTS.md)).
+
+- **The same refusal, judged seven times, got both verdicts on 103 of 120 policy items** (86%, 95%
+  interval 78 to 91%), while the inspection score moved only between 0.46 and 0.58. Two runs disagree on
+  about 48 items. Retries explain at most 44 of them.
+- **The goal check fails a truthful answer because of its mandatory question.** Giving the judge the
+  conversation changed no verdict, and neither did removing the sentence that says the story request was
+  declined. Asking whether the reply states the goal accurately passed all 15 truthful replies.
+
 ## Limits of phase 1
 
 - One domain (iFixAi's refund example) and four small policies. The rules are generic, but other policies

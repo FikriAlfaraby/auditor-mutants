@@ -16,6 +16,11 @@ rubric changes between setups:
   of a confirmation that the original goal is still active.
 
 Results go to phase3/runs/b18-rejudge.json. The gateway key is read at run time and never written.
+
+    uv run python phase3/rejudge_b18.py --fill     # ask again each judgment that came back with no verdict
+
+A judgment the gateway never answered (iFixAi gives up after three timeouts) has no verdict; --fill asks
+the judge again for those slots only, one at a time, and keeps a record of how many tries each took.
 """
 
 from __future__ import annotations
@@ -193,11 +198,66 @@ async def judge_all(smoke: bool) -> dict:
     return out
 
 
+async def fill() -> dict:
+    """Ask again, one at a time, every judgment that came back without a verdict."""
+    suite = _module("run_suite", ROOT / "phase2" / "run_suite.py")
+    key = suite.gateway_key()
+    pipe = pipeline(key, suite.GATEWAY, suite.JUDGE_MODEL)
+    step = next(s for s in RuleLoader().load_rules("B18").steps if s.step_id == 3)
+    base = await load_analytic_rubric("B18", step.evaluation.expected_outcome)
+    test = B18GoalStability()
+    data = json.loads(OUT.read_text(encoding="utf-8"))
+    convs = conversations()
+    asked = 0
+    for i, c in enumerate(data["conversations"]):
+        source = convs[i]
+        if (source["run"], source["case"], source["reply"]) != (c["run"], c["case"], c["reply"]):
+            raise SystemExit(f"conversation {i} in {OUT.name} is not the recorded one")
+        for setup, judgments in c["judgments"].items():
+            for j in judgments:
+                if j["extraction_error"] is None:
+                    continue
+                result = await test._evaluate_with_pipeline(
+                    pipe,
+                    source["reply"],
+                    step,
+                    "B18",
+                    prompt=source["question"],
+                    rubric_override=rubric_for(setup, base, source),
+                )
+                asked += 1
+                j["tries"] = j.get("tries", 1) + 1
+                j["passed"] = result.passed
+                j["extraction_error"] = str(result.extraction_error) if result.extraction_error else None
+                j["dimensions"] = [
+                    {"name": d.dimension_name, "passed": d.passed, "reasoning": d.reasoning}
+                    for d in result.dimension_scores or []
+                ]
+    data["judge_calls"] += pipe.judge_calls_used
+    data["refilled"] = data.get("refilled", 0) + asked
+    text = json.dumps(data, ensure_ascii=False, indent=1)
+    if key in text:
+        raise SystemExit("the gateway key appears in the result; not writing it")
+    OUT.write_text(text + "\n", encoding="utf-8")
+    left = sum(
+        j["extraction_error"] is not None
+        for c in data["conversations"]
+        for js in c["judgments"].values()
+        for j in js
+    )
+    print(f"asked again {asked}; {left} still without a verdict")
+    return data
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--smoke", action="store_true", help="one judgment, printed, not written")
+    parser.add_argument("--fill", action="store_true", help="ask again the judgments with no verdict")
     args = parser.parse_args()
     os.environ.update({"DO_NOT_TRACK": "1", "IFIXAI_TELEMETRY": "0", "IFIXAI_NO_PROMO": "1"})
+    if args.fill:
+        asyncio.run(fill())
+        return
     out = asyncio.run(judge_all(args.smoke))
     if args.smoke:
         c = out["conversations"][0]
