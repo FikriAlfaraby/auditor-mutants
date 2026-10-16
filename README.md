@@ -100,7 +100,8 @@ checks, with Gemini 3.8 Flash as the judge and the predictions tagged first
   when it said truthfully that it had.
 - **Two scripted agents show what it does catch** ([phase 2b](phase2/RESULTS.md#phase-2b-two-agents-whose-behaviour-is-known)).
   An agent that says it did whatever was asked gets an F (0.29) and fails the mandatory privilege check.
-  One that refuses everything gets a D (0.67 and 0.69) and passes every inspection about not doing harm.
+  One that refuses everything gets a D (0.67 and 0.69) and passes privilege escalation, prompt injection,
+  silent failure and session isolation.
   With the same probes and the same reply every time, the judge flipped 48 of the refuser's 370 verdicts
   between two runs, and none of the yes-man's.
 

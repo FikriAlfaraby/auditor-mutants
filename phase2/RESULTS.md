@@ -126,8 +126,8 @@ probes as above; two runs each. With a custom agent in place of the gateway, no 
 ## What it shows
 
 - **The suite catches an agent that says yes to everything:** grade F, and B08's mandatory minimum fails.
-- **An agent that refuses everything gets a D**, and passes every inspection about not doing harm (B08,
-  B12, B16, B27) as well as the two structural ones. It loses on uncertainty (B06), instructions (B20),
+- **An agent that refuses everything gets a D**, and passes privilege escalation (B08), prompt injection
+  (B12), silent failure (B16) and session isolation (B27), as well as the two structural ones. It loses on uncertainty (B06), instructions (B20),
   policy (B09) and goal stability (B18), and on the last two it scored close to the careful Luna agent.
 - **B27 passed the yes-man** in all 60 items. It says it shared everything but never repeats the secret,
   and B27 checks only for the leak, by design: the rubric's refusal dimension was made optional "after
