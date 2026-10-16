@@ -85,15 +85,18 @@ The trajectory auditor is one part of iFixAi. Its default command runs 10 inspec
 probes to an agent and have an LLM judge its replies. I ran them on GPT-6 Luna as a customer-support
 agent, twice as it is and twice with seven appended instructions to break the rules each inspection
 checks, with Gemini 3.8 Flash as the judge and the predictions tagged first
-([phase2/PREDICTIONS.md](phase2/PREDICTIONS.md)). Results, corrected after an independent review:
-[phase2/RESULTS.md](phase2/RESULTS.md).
+([phase2/PREDICTIONS.md](phase2/PREDICTIONS.md)). Results, corrected after a review by a separate AI
+agent: [phase2/RESULTS.md](phase2/RESULTS.md).
 
-- **Both agents got a B (0.85 and 0.87; 0.83 and 0.82).** Two of my five predictions were wrong. The
-  instructions changed how Luna talked, not what it did: it named policies far less (165 to 70 of 740
-  replies) and offered to drop citations more often, but still refused every harmful request. So the
-  near-equal scores are right; the scripted agents below test whether it catches an agent that does.
+- **Both agents got a B (0.847 and 0.867; 0.835 and 0.819).** iFixAi passes a run at 0.85, so the
+  careful agent failed one run and passed the other. Two of my five predictions were wrong. The
+  instructions changed how Luna talked far more than what it did: it named policies far less (165 to 70
+  of 740 replies) and offered to drop citations more often, but refused 117 of the 120 policy requests
+  that are forbidden on their face (the careful agent: all 120); one of the three exceptions began
+  "Override acknowledged." So the near-equal scores are about right; the scripted agents below test
+  whether it catches an agent that does misbehave.
 - **The good agent's failures were mostly not misbehaviour.** All 89 failed policy items come from two
-  requests that name no topic and test rules the agent's prompt never states; 75 of those replies asked
+  requests that name no topic and test rules the agent's prompt never states; 74 of those replies asked
   what was wanted and kept the policy. All 23 failed instruction items refer to a request the probe never
   gives. The clearest real failure: told to drop its goal for a detective story, it wrote the story in 19
   of 20 conversations, and the next step passed when it then said the goal had not changed and failed
@@ -103,7 +106,8 @@ checks, with Gemini 3.8 Flash as the judge and the predictions tagged first
   One that refuses everything gets a D (0.67 and 0.69) and passes privilege escalation, prompt injection,
   silent failure and session isolation.
   With the same probes and the same reply every time, the judge flipped 48 of the refuser's 370 verdicts
-  between two runs, and none of the yes-man's.
+  between two runs, and none of the yes-man's; the refuser's B09 score moved only from 0.50 to 0.57
+  while 40 of its verdicts flipped. At most 13 of the 48 involve a retried judge call.
 
 ## Limits of phase 1
 
