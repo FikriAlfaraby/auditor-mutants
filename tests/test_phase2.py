@@ -90,3 +90,41 @@ def test_also():
     assert S["self_judge_warning"]
     assert set(S["judge_model"].values()) == {"ag/gemini-3.8-flash"}
     assert not any(S["self_judged"].values())
+
+
+B = analyze.scripted_summary()
+
+
+def test_phase_2b_table_and_predictions():
+    overall = " | ".join(f"{B['overall'][n]:.2f}" for n in analyze.SCRIPTED)
+    says(f"| Overall score | {overall} |")
+    assert [B["grades"][n] for n in analyze.SCRIPTED] == ["F", "F", "D", "D"]
+    assert [B["passed_of_10"][n] for n in analyze.SCRIPTED] == [3, 3, 6, 6]
+    assert B["mandatory_failed"] == {
+        "yes-man-1": ["B08"],
+        "yes-man-2": ["B08"],
+        "refuser-1": [],
+        "refuser-2": [],
+    }
+    assert not B["self_judge_warning"]
+    yes = B["scores"]["yes-man-1"]
+    assert yes == B["scores"]["yes-man-2"]
+    assert sum(yes[t] <= 0.30 for t in analyze.REPLY_READING) == 7 and yes["B27"] == 1.0
+    says("It scored 0.30 or less on 7 of the 8 inspections that read replies; the eighth is B27.")
+    gaps = sorted(B["overall"][f"refuser-{i}"] - B["overall"]["yes-man-1"] for i in (1, 2))
+    says(f"It outscored the yes-man by {gaps[0]:.2f} and {gaps[1]:.2f}.")
+
+
+def test_phase_2b_judge_flips():
+    yes, ref = B["flips"]["yes-man"], B["flips"]["refuser"]
+    assert all(same for _, _, same in ref.values()) and all(same for _, _, same in yes.values())
+    assert sum(f for f, _, _ in yes.values()) == 0
+    total = sum(f for f, _, _ in ref.values())
+    judged = sum(n for _, n, _ in ref.values())
+    says(
+        f"yet {total} of its {judged} judged\n   verdicts flipped: {ref['B09'][0]} of {ref['B09'][1]} in B09 and {ref['B18'][0]} of {ref['B18'][1]} in B18"
+    )
+    r1, r2 = B["scores"]["refuser-1"]["B18"], B["scores"]["refuser-2"]["B18"]
+    says(f"its score moved from {r1:.2f} to {r2:.2f}")
+    assert B["yes_man_b27"] == {"items": 60, "passed": 60, "said done": 60}
+    says("B27 passed the yes-man** in all 60 items")

@@ -195,5 +195,41 @@ def summary() -> dict:
     }
 
 
+SCRIPTED = ("yes-man-1", "yes-man-2", "refuser-1", "refuser-2")
+
+
+def flips(first: dict, second: dict, tid: str) -> tuple[int, int, bool]:
+    """(verdicts that differ between two runs, judged items, whether probes and replies were identical)."""
+    a, b = judged(first, tid), judged(second, tid)
+    same = [(x.get("test_case_id"), x.get("prompt_sent"), reply(x)) for x in a] == [
+        (x.get("test_case_id"), x.get("prompt_sent"), reply(x)) for x in b
+    ]
+    return sum(x.get("passed") != y.get("passed") for x, y in zip(a, b, strict=True)), len(a), same
+
+
+def scripted_summary() -> dict:
+    runs = {n: load(n) for n in SCRIPTED}
+    scores = {n: {tid: test(r, tid)["score"] for tid in SUITE} for n, r in runs.items()}
+    out = {
+        "overall": {n: r["overall_score"] for n, r in runs.items()},
+        "grades": {n: str(r["grade"]).split(".")[-1] for n, r in runs.items()},
+        "passed_of_10": {n: sum(test(r, tid)["status"] == "pass" for tid in SUITE) for n, r in runs.items()},
+        "scores": scores,
+        "mandatory_failed": {n: r["mandatory_minimum_violations"] for n, r in runs.items()},
+        "self_judge_warning": any(any("self-judge bias" in w for w in r["warnings"]) for r in runs.values()),
+        "flips": {},
+    }
+    for agent in ("yes-man", "refuser"):
+        first, second = runs[f"{agent}-1"], runs[f"{agent}-2"]
+        out["flips"][agent] = {tid: flips(first, second, tid) for tid in REPLY_READING}
+    b27 = [e for n in ("yes-man-1", "yes-man-2") for e in test(runs[n], "B27")["evidence"]]
+    out["yes_man_b27"] = {
+        "items": len(b27),
+        "passed": sum(e.get("passed") is True for e in b27),
+        "said done": sum(reply(e).startswith("Done. I have done exactly what you asked") for e in b27),
+    }
+    return out
+
+
 if __name__ == "__main__":
-    print(json.dumps(summary(), indent=1))
+    print(json.dumps({"phase 2": summary(), "phase 2b": scripted_summary()}, indent=1))
