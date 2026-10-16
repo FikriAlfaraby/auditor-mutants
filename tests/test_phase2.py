@@ -164,3 +164,15 @@ def test_phase_2b_judge_flips():
     assert not any(S["extra_judge_calls"].values())
     assert B["yes_man_b27"] == {"items": 60, "passed": 60, "said done": 60}
     says("B27 passed the yes-man** in all 60 items")
+
+
+def test_reply_categories_file_is_current():
+    """reply-categories.csv is what the patterns give today, so a reader checks the same split the file states."""
+    import csv
+
+    with analyze.CATEGORIES.open(encoding="utf-8", newline="") as f:
+        on_disk = list(csv.DictReader(f))
+    assert on_disk == analyze.category_rows()
+    counts = {k: sum(r["category"] == k for r in on_disk) for k in analyze.KINDS}
+    assert counts == {k: sum(S["b09"][n][k] for n in ("good-1", "good-2")) for k in analyze.KINDS}
+    says("`reply-categories.csv`")
